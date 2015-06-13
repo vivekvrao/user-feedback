@@ -1,0 +1,140 @@
+.ufb-button{
+	position: fixed;
+	cursor: pointer;
+	top: 40%;
+    right: -40px;
+	border: 5px double #ddd;
+	border-radius: 12px;
+	padding: 5px;
+	height: 50px;
+	width: 110px;
+	text-align: center;
+	background: #008080;
+	font-size: 1.3em;
+	color: #fff;
+	rem-font-weight: bold;
+	-ms-transform:rotate(270deg); /* IE 9 */
+  -moz-transform:rotate(270deg); /* Firefox */
+  -webkit-transform:rotate(270deg); /* Safari and Chrome */
+  -o-transform:rotate(270deg); /* Opera */
+	z-index: 1010 !important
+}
+.ufb-page{
+	z-index: 1009 !important;
+	position: fixed;
+	margin-left: auto;
+	margin-right: auto;
+	top: 60px;
+	width: 80%;
+	overflow-y: auto; 
+	max-height: 90%;
+	min-width:640px;
+	border-radius: 15px;
+	border: 1px solid #777;
+	background-color: #fff;
+}
+.ufb-search{
+	width: 100%;
+  border-radius: 0.2em;
+  border: 1px solid #ccc;
+}
+.ufb-search-form{
+	text-align: center
+}
+.ufb-type{
+	width: 100%;
+  border-radius: 0.2em;
+  border: 1px solid #ccc;
+}
+.ufb-new{
+}
+
+.ufb-new-form{
+}
+.ufb-head{
+	font-size: 1.2em;
+	font-style: italic;
+}
+.ufb-count{
+	font-size: 1.2em;
+	border-left: 1px;
+	border-color: gray;	
+}
+.ufb-close{
+	font-weight: 1.4px;
+	font-style: bold;
+	text-align: center;
+	cursor: pointer;
+}
+.ufb-like{
+	display: inline;
+	color: green;
+}
+.ufb-unlike{
+	display: inline;
+	color: red;
+}
+.ufb-head-row{
+	margin-top: 10px;
+	padding: 5px;
+}
+.ufb-textbox{
+	width: 100%;
+  border-radius: 0.2em;
+  border: 1px solid #ccc;
+}
+.ufb-textdesc{
+	width: 100%;
+	margin-top: 10px;
+	height: 70px;
+  border-radius: 0.2em;
+  border: 1px solid #ccc;
+}
+.ufb-comment-input{
+	width: 100%;
+	margin: 10px;
+	height: 70px;
+  border-radius: 0.2em;
+  border: 1px solid #ccc;
+}
+.ufb-comment{
+	padding-left:30px;
+	padding-bottom:10px;
+	border-bottom: 1px dotted #ccc;
+}
+.ufb-comment-details{
+	font-size: .8em;
+	margin-left: 20px;
+}
+.ufb-like-button{
+	margin-top: 20px;
+	font-size: 1.4em;
+	color: green;
+	border: 1px solid green;
+	border-radius: 20px;
+	cursor: pointer;
+	text-align: center;
+}
+.ufb-unlike-button{
+	margin-top: 20px;
+	font-size: 1.4em;
+	color: red;
+	border: 1px solid red;
+	border-radius: 20px;
+	cursor: pointer;
+	text-align: center;
+}
+.ufb-rating-up{
+	display:inline;
+	font-size: 1.2em;
+	cursor: pointer;;
+}
+.ufb-rating-down{
+	display: inline;
+	font-size: 1.2em;
+	cursor: pointer;;
+}
+.ufb-rating{
+	font-size: 1.2em;
+	display: inline;
+}
