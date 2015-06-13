@@ -1,10 +1,10 @@
 Package.describe({
-  name: 'user-feedback',
-  version: '0.0.1',
+  name: 'viloma:user-feedback',
+  version: '0.4.0',
   // Brief, one-line summary of the package.
   summary: 'A self-contained user feedback module for Meteor',
   // URL to the Git repository containing the source code for this package.
-  git: '',
+  git: 'https://github.com/vivekvrao/user-feedback.git',
   // By default, Meteor will default to using README.md for documentation.
   // To avoid submitting documentation, set this field to null.
   documentation: 'README.md'
@@ -22,6 +22,6 @@ Package.onUse(function(api) {
 
 Package.onTest(function(api) {
   api.use('tinytest');
-  api.use('user-feedback');
+  api.use('viloma:user-feedback');
   api.addFiles('user-feedback-tests.js');
 });
