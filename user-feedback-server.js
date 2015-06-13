@@ -11,6 +11,7 @@ Meteor.methods({
   			var topicStatus = UserFeedback.find({},{fields:{"status":1}}).fetch();
   			stats = _.countBy(topicStatus,'status');
   			stats.atTime = new Date();
+  			stats.isModerator = isModerator(Meteor.userId());
   			var sort_order = {};
 			sort_order["likes"] = -1;
 			//return articles.find({}, {sort: sort_order, limit: 1});

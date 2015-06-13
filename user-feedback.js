@@ -45,6 +45,7 @@ Template.userfeedback.rendered = function(){
 				console.log(err);
 			else {
 				Session.set('ufb-list', asyncValue.topics);
+				Session.set('isModerator', asyncValue.isModerator);
 				var newCount = 0;
 				if(asyncValue.new)
 					newCount = asyncValue.new;
@@ -79,9 +80,9 @@ Template.userfeedback.helpers({
 	},
 	readonly: function(){
 		var currTopic = Session.get('currTopic');
-		if (currTopic.owner == Meteor.userId() || 
-				(Meteor.settings.public.userfeedback != null && 
-				Meteor.userId() == Meteor.settings.public.userfeedback.moderator)) 
+		var isModerator = Session.get('isModerator');
+		if (currTopic.owner === Meteor.userId() || 
+			isModerator === true) 
 				return null;
 		return "readonly";
 	}
