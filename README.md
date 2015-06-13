@@ -33,6 +33,18 @@ settings.json
 }
 ```
 
+To select users that are moderators for your site add this to settings.json
+```javascript
+{
+	"userfeedback": {
+		"moderators": {
+			"your moderator user id 1 ..": 1,
+			"your moderator user id 2 ..": 1
+		}
+	}
+}
+```
+
 ### Details:
 - Visitors can view the feedback without signing in
 - Only signed in users can create new topics or comment on them.
