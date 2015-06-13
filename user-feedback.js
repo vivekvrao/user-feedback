@@ -112,11 +112,14 @@ Template.userfeedback.events({
       return false;
     },
     "click .ufb-save-button": function(event){
-    	alert('saving');
+	    var currTopic = Session.get("currTopic");
+	    var currTopicId;
+	    if(currTopic)
+	    	currTopicId = currTopic._id;
       var head =$('.ufb-textbox').val();
       var typ =$('.ufb-type').val();
       var desc =$('.ufb-textdesc').val();
-  		Meteor.call("newTopic", head, typ, desc, function (err, res) {
+  		Meteor.call("setTopic", head, typ, desc, currTopicId, function (err, res) {
   			if(!err){
 	  			Session.set('currTopic', res);
 	  		}
