@@ -44,7 +44,7 @@
 
 	{{else}}
 		{{#each topicList}}<div class='row'>
-			<div class='col-8 col-sm-8 col-md-8'><a class='ufb-topic' href='#' id='{{_id}}'>{{head}}</a></div><div class='col-4 col-sm-4 col-md-4'><div class='ufb-like'>&#x25B2;{{likes}}</div>&nbsp;&nbsp;&nbsp;&nbsp;<div class='ufb-unlike'>&#x25BC;{{unlikes}}</div>&nbsp;&nbsp;&nbsp;&nbsp;{{ufbFormatDate date}}&nbsp;&nbsp;&nbsp;&nbsp;<div class='ufb-status'>{{status}}</div></div>
+			<div class='col-7 col-sm-7 col-md-7 col-lg-7'><a class='ufb-topic' href='#' id='{{_id}}'>{{head}}</a></div><div class='col-5 col-sm-5 col-md-5 col-lg-5'><div class='ufb-like'>&#x25B2;{{likes}}</div>&nbsp;&nbsp;<div class='ufb-unlike'>&#x25BC;{{unlikes}}</div>&nbsp;&nbsp;&nbsp;{{commentCount}} msgs&nbsp;&nbsp;&nbsp;<div class='ufb-status'>&nbsp;{{status}}</div>&nbsp;&nbsp;&nbsp;{{ufbFormatDate date}}</div>
 			</div>
 		{{/each}}
 	{{/if}}

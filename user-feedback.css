@@ -48,7 +48,10 @@
 }
 .ufb-new{
 }
-
+.ufb-status{
+	display:inline-block;
+	width: 50px;
+}
 .ufb-new-form{
 }
 .ufb-head{
@@ -67,11 +70,11 @@
 	cursor: pointer;
 }
 .ufb-like{
-	display: inline;
+	display: inline-block;
 	color: green;
 }
 .ufb-unlike{
-	display: inline;
+	display: inline-block;
 	color: red;
 }
 .ufb-head-row{

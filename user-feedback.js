@@ -5,14 +5,21 @@ UI.registerHelper('ufbmatches', function(foo, bar1, bar2, bar3, bar4) {
 
 UI.registerHelper('ufbsort', function(array, field, ord) {
 	console.log('sort called '+array+' '+field +" ord "+ ord);
-	if(ord === "desc")
-		return _.sortBy(array, function(item){ return -item[field]; });
-	return _.sortBy(array, function(item){ return item[field]; });
+if(ord === "desc")
+	return _.sortBy(array, function(item){ return -item[field]; });
+return _.sortBy(array, function(item){ return item[field]; });
 });
 
+function updateTopic(topicId, type, comment){
+    Meteor.call("updateTopic", topicId, type, comment, function(err, res){
+		if(!err)
+  			Session.set('currTopic', res);
+  		else
+  			alert(err);	    		
+  	});
+}
 
-
-function ufbFormatDate(date) {
+ufbFormatDate = function(date) {
   var hours = date.getHours();
   var minutes = date.getMinutes();
   var ampm = hours >= 12 ? 'pm' : 'am';
@@ -20,11 +27,14 @@ function ufbFormatDate(date) {
   hours = hours ? hours : 12; // the hour '0' should be '12'
   minutes = minutes < 10 ? '0'+minutes : minutes;
   var strTime = hours + ':' + minutes + ampm;
-  return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + " " + strTime;
+  return (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear() + " " + strTime;
 }
 UI.registerHelper('ufbFormatDate',function(date){
-    return ufbFormatDate(date);
+    var res = ufbFormatDate(date);
+    console.log('fmt date called - res '+res);
+    return res;
 });
+
 
 Template.userfblink.helpers({
 	showFb: function(){
@@ -38,9 +48,10 @@ Template.userfblink.events({
     }
 });
 Template.userfeedback.rendered = function(){
-  if (!this.rendered){
-    this.rendered = true;
-  		Meteor.call("initUFB", function (err, asyncValue) {
+	if (!this.rendered){
+		this.rendered = true;
+		// initialize user feedback - get starting list, Stats and isModerator
+		Meteor.call("initUFB", function (err, asyncValue) {
 			if (err)
 				console.log(err);
 			else {
@@ -56,7 +67,7 @@ Template.userfeedback.rendered = function(){
 			}
 		});	
 
-  }
+  	}
 };
 
 Template.userfeedback.helpers({
@@ -64,6 +75,7 @@ Template.userfeedback.helpers({
 		return Session.get('ufb-stats');
 	},
 	categories: function(){
+		// if topic types overridden in config use those 
 		if(Meteor.settings.public && Meteor.settings.public.userfeedback && Meteor.settings.public.userfeedback.categories){
 			return Meteor.settings.public.userfeedback.categories;
 		}
@@ -81,6 +93,7 @@ Template.userfeedback.helpers({
 	readonly: function(){
 		var currTopic = Session.get('currTopic');
 		var isModerator = Session.get('isModerator');
+		// if you own the current topic or are the moderator then not readonly 
 		if (currTopic.owner === Meteor.userId() || 
 			isModerator === true) 
 				return null;
@@ -92,7 +105,7 @@ Template.userfeedback.events({
 		Session.set('showFb',false);
     },
     "submit .ufb-search-form": function (event) {
-      // This function is called when the new task form is submitted
+      // search box - find result of topic
       var text = $('.ufb-search').val();
       var typ = $('.ufb-type').val();
       Session.set('currTopic', null);
@@ -107,14 +120,14 @@ Template.userfeedback.events({
       return false;
     },
     "click .ufb-new": function (event) {
-      // This function is called when the new task form is submitted
-      var text =$('.ufb-search').val();
+      // create a new topic
       Session.set('currTopic', {owner: Meteor.userId(), desc:""});
       return false;
     },
     "click .ufb-save-button": function(event){
 	    var currTopic = Session.get("currTopic");
 	    var currTopicId;
+	    // if it not new topic - then pass the curr topic id 
 	    if(currTopic)
 	    	currTopicId = currTopic._id;
       var head =$('.ufb-textbox').val();
@@ -130,6 +143,7 @@ Template.userfeedback.events({
     },
     "click .ufb-topic": function(e){
 		var k = e.target.id;
+		// get the fill topic
     	Meteor.call("getTopicDetails", k, function(err, res){
   			if(!err)
 	  			Session.set('currTopic', res);
@@ -142,54 +156,29 @@ Template.userfeedback.events({
 	    var text =$('.ufb-comment-input').val();
 	    $('.ufb-comment-input').val("");
 	    var currTopic = Session.get("currTopic");
-	    Meteor.call("updateTopic", currTopic._id, "comment", text, function(err, res){
-  			if(!err)
-	  			Session.set('currTopic', res);
-	  		else
-	  			alert(err);	    		
-	    });
+	    updateTopic(currTopic._id, "comment", text);
     	return false;    	
     },
     "click .ufb-unlike-button" : function(e){
 	    var currTopic = Session.get("currTopic");
-	    Meteor.call("updateTopic", currTopic._id, "unlikes", "", function(err, res){
-  			if(!err)
-	  			Session.set('currTopic', res);
-	  		else
-	  			alert(err);	    		
-	    });
+	    updateTopic(currTopic._id, "unlikes", "");
     	return false;  	
     },
     "click .ufb-like-button" : function(e){
 	    var currTopic = Session.get("currTopic");
-	    Meteor.call("updateTopic", currTopic._id, "likes", "", function(err, res){
-  			if(!err)
-	  			Session.set('currTopic', res);
-	  		else
-	  			alert(err);	    		
-	    });
+	    updateTopic(currTopic._id, "likes", "");
     	return false;  	
     },
     "click .ufb-rating-up" : function(e){
 	    var currTopic = Session.get("currTopic");
 	    var cmtId = e.target.id.substring(3);
-	    Meteor.call("updateTopic", currTopic._id, "clikes", cmtId, function(err, res){
-  			if(!err)
-	  			Session.set('currTopic', res);
-	  		else
-	  			alert(err);	    		
-	    });
+	    updateTopic(currTopic._id, "clikes", cmtId);
     	return false;  	
     },
     "click .ufb-rating-down" : function(e){
 	    var currTopic = Session.get("currTopic");
 	    var cmtId = e.target.id.substring(3);
-	    Meteor.call("updateTopic", currTopic._id, "cunlikes", cmtId, function(err, res){
-  			if(!err)
-	  			Session.set('currTopic', res);
-	  		else
-	  			alert(err);	    		
-	    });
+	    updateTopic(currTopic._id, "cunlikes", cmtId);
     	return false;  	
     },
     "change .ufb-status" : function(e){
@@ -197,13 +186,7 @@ Template.userfeedback.events({
 		if($('#'+e.target.id).attr('orig') !== val){
 		    var currTopic = Session.get("currTopic");
 			console.log('combobox '+e.target.id+'='+val);
-		    Meteor.call("updateTopic", currTopic._id, "status", val, function(err, res){
-	  			if(!err)
-		  			Session.set('currTopic', res);
-		  		else
-		  			alert(err);	    		
-		    });
+		    updateTopic(currTopic._id, "status", val);
 		}
-
     }
 });
