@@ -12,7 +12,7 @@ add this to show the feedback link.
 {{> userfblink}} 
 ```
 
-if you dont want to include it directly in project instead of as a popup add
+if you want to include it directly in project instead of as a popup add
 ```html
 {{> userfeedback}}
 ```
@@ -55,6 +55,8 @@ To select users that are moderators for your site add this to settings.json
 
 
 ### To be added
+- accept an answer
+- delete a comment
 - surveys
 - private ideas
 

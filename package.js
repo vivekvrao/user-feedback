@@ -1,6 +1,6 @@
 Package.describe({
   name: 'viloma:user-feedback',
-  version: '0.4.2',
+  version: '0.4.3',
   // Brief, one-line summary of the package.
   summary: 'A self-contained user feedback module for Meteor',
   // URL to the Git repository containing the source code for this package.
@@ -14,6 +14,7 @@ Package.onUse(function(api) {
   api.versionsFrom('1.1.0.2');
   api.use('mongo', ['server']);
   api.use('templating');
+  api.use('accounts-base');
   api.addFiles('user-feedback.html','client');
   api.addFiles('user-feedback.css','client');
   api.addFiles('user-feedback.js','client');

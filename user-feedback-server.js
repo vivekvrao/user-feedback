@@ -34,15 +34,13 @@ Meteor.methods({
 		console.log('ufb: got stats : '+ statInfo + ' topics: '+stats.topics.length);
   		return stats;
   },
-  findTopic: function (text, type, pageNo) {
+  findTopic: function (text, pageNo) {
     check(text, String);
-	check(type, String);
 
 	var res = UserFeedback.find({"$text":{"$search":text}}, 
 		{ fields: {'head':1, 'date':1, 'likes':1, 'unlikes':1, 'category':1, '_id':1, 'status':1, 'commentCount':1 }}).fetch();
 
-
-	console.log('ufb: findToic '+ text+ ' got '+res.length);
+	console.log('ufb: findToipc '+ text+ ' got '+res.length);
 	return res;	
   },
   setTopic: function (head, typ, desc, topicId) {
@@ -52,7 +50,7 @@ Meteor.methods({
 	check(typ, String);
     check(desc, String);
     if(!topicId){
-		var topic = {head: head, date: new Date(), type: typ, desc: desc, likes:0, unlikes:0, category:typ, commentCount: 0, comments:[], userSet:{}, status: 'new' };
+		var topic = {head: head, date: new Date(), category: typ, desc: desc, likes:0, unlikes:0, category:typ, commentCount: 0, comments:[], userSet:{}, status: "New" };
 		topic.owner = Meteor.userId();
 		topicId = UserFeedback.insert(topic);
 		console.log('ufb: new topic '+head+' '+desc + ' '+typ);
@@ -61,7 +59,7 @@ Meteor.methods({
 		var topic = UserFeedback.findOne({'_id': topicId});
 		if(topic.owner === Meteor.userId() || isModerator(Meteor.userId())){
 			topic.head = head;
-			topic.typ = typ;
+			topic.category = typ;
 			topic.desc = desc;
 			topic.date = new Date();
 			UserFeedback.update({'_id': topicId}, topic);

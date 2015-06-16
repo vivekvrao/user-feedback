@@ -2,11 +2,11 @@
 	position: fixed;
 	cursor: pointer;
 	top: 40%;
-    right: -40px;
+    right: -50px;
 	border: 5px double #ddd;
 	border-radius: 12px;
 	padding: 5px;
-	height: 50px;
+	height: 30px;
 	width: 110px;
 	text-align: center;
 	background: #008080;
@@ -20,10 +20,12 @@
 	z-index: 1010 !important
 }
 .ufb-page{
+	font-family: sans-serif;
 	z-index: 1009 !important;
 	position: fixed;
 	margin-left: auto;
 	margin-right: auto;
+	min-height: 50%;
 	top: 60px;
 	width: 80%;
 	overflow-y: auto; 
@@ -34,40 +36,48 @@
 	background-color: #fff;
 }
 .ufb-search{
-	width: 100%;
+	width: 96%;
   border-radius: 0.2em;
   border: 1px solid #ccc;
 }
 .ufb-search-form{
-	text-align: center
+	float: left;
+	width: 60%;
 }
 .ufb-type{
-	width: 100%;
+	width: 40%;
   border-radius: 0.2em;
   border: 1px solid #ccc;
+  float:left;
 }
 .ufb-new{
+	float: right;
 }
 .ufb-status{
-	display:inline-block;
-	width: 50px;
+	width: 70px;
 }
 .ufb-new-form{
 }
+.ufb-search-button{
+	font-size: .75em;
+}
 .ufb-head{
 	font-size: 1.2em;
-	font-style: italic;
+	float: left;
 }
 .ufb-count{
 	font-size: 1.2em;
 	border-left: 1px;
 	border-color: gray;	
+	float: right;
+	padding-right: 30px;
 }
 .ufb-close{
 	font-weight: 1.4px;
 	font-style: bold;
 	text-align: center;
 	cursor: pointer;
+	float: right;
 }
 .ufb-like{
 	display: inline-block;
@@ -78,32 +88,57 @@
 	color: red;
 }
 .ufb-head-row{
-	margin-top: 10px;
-	padding: 5px;
+	margin-top: 5px;
+	padding: 10px;
 }
 .ufb-textbox{
-	width: 100%;
+  width: 70%;
   border-radius: 0.2em;
   border: 1px solid #ccc;
+  font-size: 1.2em;
+	float: left;
+	margin-left: 10px;
 }
+.ufb-status-box{
+	float:left;
+	margin-left: 10px;
+}
+.ufb-type-input{
+	margin-left: 10px;
+	float: left;
+}
+
 .ufb-textdesc{
-	width: 100%;
+	width: 70%;
 	margin-top: 10px;
 	height: 70px;
   border-radius: 0.2em;
   border: 1px solid #ccc;
+  float: left;
+  font-family: sans-serif;
+
+	margin-left: 10px;
 }
+.ufb-readonly{
+  border: 1px solid #eee;
+}
+
 .ufb-comment-input{
-	width: 100%;
+	width: 80%;
 	margin: 10px;
 	height: 70px;
   border-radius: 0.2em;
+ 	font-family: sans-serif;
   border: 1px solid #ccc;
+ 	float: left;
 }
 .ufb-comment{
-	padding-left:30px;
-	padding-bottom:10px;
+	padding: 10px 10px 10px 40px;
 	border-bottom: 1px dotted #ccc;
+}
+.ufb-comment-save{
+	float: left;
+	margin-top: 10px;
 }
 .ufb-comment-details{
 	font-size: .8em;
@@ -117,6 +152,9 @@
 	border-radius: 20px;
 	cursor: pointer;
 	text-align: center;
+	float: left;
+	width: 60px;
+	margin-left: 10px;
 }
 .ufb-unlike-button{
 	margin-top: 20px;
@@ -126,18 +164,40 @@
 	border-radius: 20px;
 	cursor: pointer;
 	text-align: center;
+	float: left;
+	width: 60px;
+	margin-left: 10px;
 }
 .ufb-rating-up{
 	display:inline;
-	font-size: 1.2em;
 	cursor: pointer;;
 }
 .ufb-rating-down{
 	display: inline;
-	font-size: 1.2em;
 	cursor: pointer;;
 }
 .ufb-rating{
-	font-size: 1.2em;
+	padding-left: 30px;
 	display: inline;
+}
+.ufb-save-button{
+	float:left;
+	margin-top: 60px;
+	margin-left: 5px;
+}
+.ufb-header{
+	float:left;
+	padding: 10px;	
+}
+.ufb-row{
+	clear: left;
+}
+.ufb-status{
+	float: left;
+	width: 60px;
+}
+.ufb-topic{
+	float: left;
+	width: 50%;
+	padding:3px 3px 3px 10px;
 }

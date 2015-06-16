@@ -30,9 +30,7 @@ ufbFormatDate = function(date) {
   return (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear() + " " + strTime;
 }
 UI.registerHelper('ufbFormatDate',function(date){
-    var res = ufbFormatDate(date);
-    console.log('fmt date called - res '+res);
-    return res;
+    return ufbFormatDate(date);
 });
 
 
@@ -58,8 +56,8 @@ Template.userfeedback.rendered = function(){
 				Session.set('ufb-list', asyncValue.topics);
 				Session.set('isModerator', asyncValue.isModerator);
 				var newCount = 0;
-				if(asyncValue.new)
-					newCount = asyncValue.new;
+				if(asyncValue.New)
+					newCount = asyncValue.New;
 				var solvedCount = 0;
 				if(asyncValue.solved)
 					solvedCount = asyncValue.solved;
@@ -76,7 +74,7 @@ Template.userfeedback.helpers({
 	},
 	categories: function(){
 		// if topic types overridden in config use those 
-		if(Meteor.settings.public && Meteor.settings.public.userfeedback && Meteor.settings.public.userfeedback.categories){
+		if(Meteor.settings && Meteor.settings.public && Meteor.settings.public.userfeedback && Meteor.settings.public.userfeedback.categories){
 			return Meteor.settings.public.userfeedback.categories;
 		}
 		else
@@ -107,9 +105,8 @@ Template.userfeedback.events({
     "submit .ufb-search-form": function (event) {
       // search box - find result of topic
       var text = $('.ufb-search').val();
-      var typ = $('.ufb-type').val();
       Session.set('currTopic', null);
-  		Meteor.call("findTopic", text, typ, function (err, asyncValue) {
+  		Meteor.call("findTopic", text, function (err, asyncValue) {
 			if (err)
 				console.log(err);
 			else {
@@ -118,6 +115,9 @@ Template.userfeedback.events({
 		});	
       // Prevent default form submit
       return false;
+    },
+    "click .ufb-search-button":function(event){
+    	Session.set('currTopic', null);
     },
     "click .ufb-new": function (event) {
       // create a new topic
@@ -131,7 +131,7 @@ Template.userfeedback.events({
 	    if(currTopic)
 	    	currTopicId = currTopic._id;
       var head =$('.ufb-textbox').val();
-      var typ =$('.ufb-type').val();
+      var typ =$('.ufb-type-input').val();
       var desc =$('.ufb-textdesc').val();
   		Meteor.call("setTopic", head, typ, desc, currTopicId, function (err, res) {
   			if(!err){
