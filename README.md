@@ -7,6 +7,8 @@ This module allows you to easily add User Idea Generation and Issue Reporting fu
 
 **meteor add viloma:user-feedback**
 
+[Here is a Demo](http://user-feedback-demo.meteor.com)
+
 add this to show the feedback link.
 ```html
 {{> userfblink}} 

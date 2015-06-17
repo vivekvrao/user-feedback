@@ -78,9 +78,9 @@ Template.userfeedback.helpers({
 			return Meteor.settings.public.userfeedback.categories;
 		}
 		else
-			return [{desc: "Feature Ideas", id:"idea"}, 
-					{desc:"Technical Issues", id:"issue"},
-					{desc:"General Feedback", id:"general"}];
+			return [{desc: "Feature Ideas", id:"Idea"}, 
+					{desc:"Technical Issues", id:"Issue"},
+					{desc:"General Feedback", id:"General"}];
 	},
 	topicList: function(){
 		return Session.get('ufb-list');
@@ -100,6 +100,9 @@ Template.userfeedback.helpers({
 });
 Template.userfeedback.events({
 	"click .ufb-close": function (event) {
+		Session.set('showFb',false);
+    },
+	"click .ufb-topic-close": function (event) {
 		Session.set('showFb',false);
     },
     "submit .ufb-search-form": function (event) {
@@ -181,7 +184,7 @@ Template.userfeedback.events({
 	    updateTopic(currTopic._id, "cunlikes", cmtId);
     	return false;  	
     },
-    "change .ufb-status" : function(e){
+    "change .ufb-status-box" : function(e){
     	var val =  $('#'+e.target.id).val();
 		if($('#'+e.target.id).attr('orig') !== val){
 		    var currTopic = Session.get("currTopic");

@@ -23,26 +23,26 @@
 	font-family: sans-serif;
 	z-index: 1009 !important;
 	position: fixed;
-	margin-left: auto;
-	margin-right: auto;
+	margin-left: 10%;
 	min-height: 50%;
-	top: 60px;
+	top: 30px;
 	width: 80%;
 	overflow-y: auto; 
 	max-height: 90%;
 	min-width:640px;
 	border-radius: 15px;
-	border: 1px solid #777;
+	border: 6px solid #DDD;
 	background-color: #fff;
 }
 .ufb-search{
-	width: 96%;
+	width: 60%;
   border-radius: 0.2em;
   border: 1px solid #ccc;
+  margin: 10px;
+  font-size: 1.2em;
 }
 .ufb-search-form{
-	float: left;
-	width: 60%;
+	width: 100%;
 }
 .ufb-type{
 	width: 40%;
@@ -51,7 +51,6 @@
   float:left;
 }
 .ufb-new{
-	float: right;
 }
 .ufb-status{
 	width: 70px;
@@ -73,12 +72,16 @@
 	padding-right: 30px;
 }
 .ufb-close{
-	font-weight: 1.4px;
-	font-style: bold;
-	text-align: center;
 	cursor: pointer;
 	float: right;
+	margin-right: 10px;
 }
+.ufb-topic-close{
+	cursor: pointer;
+	float: right;
+	margin: 10px;
+}
+
 .ufb-like{
 	display: inline-block;
 	color: green;
@@ -90,6 +93,7 @@
 .ufb-head-row{
 	margin-top: 5px;
 	padding: 10px;
+	color: #666;
 }
 .ufb-textbox{
   width: 70%;
@@ -102,10 +106,14 @@
 .ufb-status-box{
 	float:left;
 	margin-left: 10px;
+  border-radius: 0.2em;
+  border: 1px solid #ccc;
 }
 .ufb-type-input{
 	margin-left: 10px;
 	float: left;
+  border-radius: 0.2em;
+  border: 1px solid #ccc;
 }
 
 .ufb-textdesc{
@@ -194,7 +202,7 @@
 }
 .ufb-status{
 	float: left;
-	width: 60px;
+	width: 70px;
 }
 .ufb-topic{
 	float: left;
