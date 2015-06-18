@@ -30,7 +30,7 @@ Meteor.methods({
 		var sort_order = {};
 		sort_order["likes"] = -1;
 		//return articles.find({}, {sort: sort_order, limit: 1});
-		stats.topics = UserFeedback.find({}, {sort:sort_order, limit: 15, fields:{'head':1, 'date':1, 'likes':1, 'unlikes':1, 'category':1, '_id':1, 'status':1, 'commentCount':1}}).fetch();
+		stats.topics = UserFeedback.find({}, {sort:sort_order, limit: 15, fields:{'head':1, 'date':1, 'likes':1, 'unlikes':1, 'category':1, '_id':1, 'status':1, 'commentCount':1, 'username':1}}).fetch();
 		console.log('ufb: got stats : '+ statInfo + ' topics: '+stats.topics.length);
   		return stats;
   },
@@ -38,7 +38,7 @@ Meteor.methods({
     check(text, String);
 
 	var res = UserFeedback.find({"$text":{"$search":text}}, 
-		{ fields: {'head':1, 'date':1, 'likes':1, 'unlikes':1, 'category':1, '_id':1, 'status':1, 'commentCount':1 }}).fetch();
+		{ fields: {'head':1, 'date':1, 'likes':1, 'unlikes':1, 'category':1, '_id':1, 'status':1, 'commentCount':1, 'username':1, 'date':1 }}).fetch();
 
 	console.log('ufb: findToipc '+ text+ ' got '+res.length);
 	return res;	
@@ -52,6 +52,7 @@ Meteor.methods({
     if(!topicId){
 		var topic = {head: head, date: new Date(), category: typ, desc: desc, likes:0, unlikes:0, category:typ, commentCount: 0, comments:[], userSet:{}, status: "New" };
 		topic.owner = Meteor.userId();
+		topic.username = Meteor.user().username;
 		topicId = UserFeedback.insert(topic);
 		console.log('ufb: new topic '+head+' '+desc + ' '+typ);
 	}
@@ -61,7 +62,7 @@ Meteor.methods({
 			topic.head = head;
 			topic.category = typ;
 			topic.desc = desc;
-			topic.date = new Date();
+			topic.updated = new Date();
 			UserFeedback.update({'_id': topicId}, topic);
 			console.log('ufb: updating topic '+head+' '+desc + ' '+typ+ ' '+topicId);
 		}
@@ -77,7 +78,7 @@ Meteor.methods({
 		throw new Meteor.Error("log in to type on topic");
     check(comment, String);
 	check(type, String);
-	var ufb = UserFeedback.findOne({'_id': topicId}, {fields:{'likes':1, 'unlikes':1, userSet:1, commentCount:1, 'owner':1}});
+	var ufb = UserFeedback.findOne({'_id': topicId}, {fields:{'likes':1, 'unlikes':1, userSet:1, commentCount:1, 'owner':1,'date':1}});
 	var uId = Meteor.userId();
 	console.log('ufb: updaing topic id:'+topicId+' type:'+type+ ' comment:'+comment+ ' user:'+uId);
 	var updated = false;
@@ -114,6 +115,16 @@ Meteor.methods({
 				{ "$inc": { "comments.$.rating" : -1 }, "$set":updateSet });
 			updated = true;
 		}
+	}
+	else if(type == 'accept-answer'){
+		UserFeedback.update({_id: topicId, "comments.id" : parseInt(comment)},
+			{ "$set": {"comments.$.accepted" : true, "status":"Solved"} });
+		updated = true;
+	}
+	else if(type == 'remove-comment'){
+		UserFeedback.update({_id: topicId, "comments.id" : parseInt(comment)},
+			{ "$set": {"comments.$.removed" : true} });
+		updated = true;
 	}
 	else if(type == 'comment'){
 		var cmt = {"desc":comment, "date": new Date(), "rating": 0};

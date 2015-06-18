@@ -51,6 +51,14 @@
   float:left;
 }
 .ufb-new{
+	padding: 10px;
+	border-radius: .5em;
+	color: #fff;
+	background-color: #449d44;
+	border: 1px solid #398439;
+	font-weight: bold;
+	display: inline;
+	cursor: pointer;
 }
 .ufb-status{
 	width: 70px;
@@ -141,8 +149,32 @@
  	float: left;
 }
 .ufb-comment{
+	float: left;
 	padding: 10px 10px 10px 40px;
 	border-bottom: 1px dotted #ccc;
+}
+.ufb-accepted{
+	float: left;
+	color: green;
+	font-weight: bold;
+	font-size: 1.7em;
+	padding: 10px;
+}
+.ufb-topic-user{
+	float: left;
+	padding-left: 60px;
+	font-size: .9em;
+	padding-top: 5px;
+}
+.ufb-topic-date{
+	float: left;
+	font-size: .8em;
+	padding-left: 10px;
+	padding-top: 5px;
+}
+.ufb-accepted-text{
+	float: left;
+	padding: 10px;
 }
 .ufb-comment-save{
 	float: left;
@@ -208,4 +240,12 @@
 	float: left;
 	width: 50%;
 	padding:3px 3px 3px 10px;
+}
+.ufb-comment-remove{
+	display: inline;
+	padding: 5px;
+}
+.ufb-accept-answer{
+	display: inline;
+	padding: 5px;
 }

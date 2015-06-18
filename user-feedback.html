@@ -8,8 +8,8 @@
 	</div>
 	<div class='ufb-head-row'>
 		<form class='ufb-search-form'>
-		<input type='search' class='ufb-search' placeholder='Search for an Idea or an Issue'/> or 
-		<a class='ufb-new' href='#'>Create New Topic</a>
+		<input type='search' class='ufb-search' placeholder='Search for an Idea or an Issue'/>
+		<div class='ufb-new' href='#'>Create New Topic</div>
 
 		</form>
 	</div>
@@ -20,7 +20,7 @@
 		<div class='ufb-row'>
 			{{#if readonly}}
 				<div class='ufb-textbox ufb-readonly'>{{currTopic.head}}</div>
-				<div class='ufb-type-input ufb-readonly'>{{currTopic.type}}</div>
+				<div class='ufb-type-input ufb-readonly'>{{currTopic.category}}</div>
 				<div class='ufb-status-box ufb-readonly'>{{currTopic.status}}</div>
 			{{else}}
 			<input type='textbox' class="ufb-textbox" placeholder="Title of the Topic" readonly="{{readonly}}" value="{{currTopic.head}}" />
@@ -33,6 +33,10 @@
 				<option value='Solved' selected={{ufbmatches currTopic.status "Solved"}}>Solved</option>
 				<option value='New' selected={{ufbmatches currTopic.status "New"}}>New</option></select>
 			{{/if}}
+			<div class='ufb-row'>
+			<div class='ufb-topic-user'>by {{currTopic.username}}</div>
+			<div class='ufb-topic-date'>on {{ufbFormatDate currTopic.date}}</div>
+			</div>
 		</div>
 		<div class='ufb-row'>
 			{{#if readonly}}
@@ -45,11 +49,17 @@
 		</div>
 		<div class='ufb-row'>
 			<div class='ufb-header'>Comments</div>
-			<div class="ufb-row"><textarea placeholder="Type comment and hit enter." class="ufb-comment-input"></textarea><button class='ufb-comment-save'>Save</button></div>
+			<div class="ufb-row"><textarea placeholder="Type comment and click Save." class="ufb-comment-input"></textarea><button class='ufb-comment-save'>Save</button></div>
 		</div>
 		<div>
 			{{#each ufbsort currTopic.comments "rating" "desc"}}
-			<div class='ufb-row'><div class='ufb-comment-details'>{{uName}} {{ufbFormatDate date}}<div class='ufb-rating'> Rating: {{rating}}</div> <div id='cmu{{id}}' class='ufb-rating-up'>&#x25B2;</div> <div id='cmd{{id}}' class='ufb-rating-down'>&#x25BC;</div></div><div class='ufb-comment'>{{desc}}</div></div>
+			<div class='ufb-row'><div class='ufb-comment-details'>{{uName}} {{ufbFormatDate date}}<div class='ufb-rating'> Rating: {{rating}}</div> <div id='cmu{{id}}' class='ufb-rating-up'>&#x25B2;</div> <div id='cmd{{id}}' class='ufb-rating-down'>&#x25BC;</div>{{#unless readonly}}<a id='cma{{id}}' href='#'  class='ufb-accept-answer'>Accept Answer</a><a id='cmr{{id}}' href='#' class='ufb-remove-comment'>Remove</a>{{/unless}}</div>
+{{#if removed}}
+<div class='ufb-comment'>------------- Comment Removed -------------</div>
+{{else}}
+			<div class='ufb-comment'>{{desc}}</div>{{#if accepted}}<div class='ufb-accepted'>&check;</div><div class='ufb-accepted-text'>Accepted Answer</div>{{/if}}
+{{/if}}
+			</div>
 			{{/each}}
 		</div>
 

@@ -59,8 +59,8 @@ Template.userfeedback.rendered = function(){
 				if(asyncValue.New)
 					newCount = asyncValue.New;
 				var solvedCount = 0;
-				if(asyncValue.solved)
-					solvedCount = asyncValue.solved;
+				if(asyncValue.Solved)
+					solvedCount = asyncValue.Solved;
 				Session.set('ufb-stats', "New: "+newCount + " / Solved: "+solvedCount);
 			}
 		});	
@@ -126,6 +126,16 @@ Template.userfeedback.events({
       // create a new topic
       Session.set('currTopic', {owner: Meteor.userId(), desc:""});
       return false;
+    },
+    "click .ufb-accept-answer": function(event){
+	    var currTopic = Session.get("currTopic");
+	    var cmtId = event.target.id.substring(3);
+	    updateTopic(currTopic._id, "accept-answer", cmtId);
+    },
+    "click .ufb-remove-comment": function(event){
+	    var currTopic = Session.get("currTopic");
+	    var cmtId = event.target.id.substring(3);
+	    updateTopic(currTopic._id, "remove-comment", cmtId);
     },
     "click .ufb-save-button": function(event){
 	    var currTopic = Session.get("currTopic");
