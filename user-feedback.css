@@ -1,13 +1,12 @@
-.ufb-button{
+.ufb-links{
 	position: fixed;
 	cursor: pointer;
 	top: 40%;
-    right: -50px;
+    right: -87px;
 	border: 5px double #ddd;
 	border-radius: 12px;
 	padding: 5px;
 	height: 30px;
-	width: 110px;
 	text-align: center;
 	background: #008080;
 	font-size: 1.3em;
@@ -17,7 +16,28 @@
   -moz-transform:rotate(270deg); /* Firefox */
   -webkit-transform:rotate(270deg); /* Safari and Chrome */
   -o-transform:rotate(270deg); /* Opera */
-	z-index: 1010 !important
+	z-index: 1010 !important;
+	width: 180px;
+}
+.ufb-button{
+	display:inline-block;
+	padding: 3px;
+}
+.ufb-chat{
+	display: inline-block;
+	padding: 3px;
+	margin-left: 10px;
+	border-left: 2px solid #fff;
+}
+
+@keyframes blink {
+    0%   {background-color: red;}
+    50%  {background-color: blue;}
+}
+
+.ufb-chat-flash{
+   animation-name: blink;
+  animation: 1s blink step-end infinite;
 }
 .ufb-page{
 	font-family: sans-serif;
@@ -66,7 +86,11 @@
 .ufb-new-form{
 }
 .ufb-search-button{
-	font-size: .75em;
+	font-size: 2.3em;
+	text-decoration: none;
+	color: #777;
+	float: left;
+	padding: 10px;
 }
 .ufb-head{
 	font-size: 1.2em;
@@ -88,6 +112,11 @@
 	cursor: pointer;
 	float: right;
 	margin: 10px;
+}
+.ufb-chat-close{
+	cursor: pointer;
+	float: right;
+	margin-right: 10px;
 }
 
 .ufb-like{
@@ -159,6 +188,7 @@
 	font-weight: bold;
 	font-size: 1.7em;
 	padding: 10px;
+	margin-left: 100px;
 }
 .ufb-topic-user{
 	float: left;
@@ -195,6 +225,8 @@
 	float: left;
 	width: 60px;
 	margin-left: 10px;
+	padding-top:5px;
+	padding-bottom: 5px;
 }
 .ufb-unlike-button{
 	margin-top: 20px;
@@ -207,6 +239,8 @@
 	float: left;
 	width: 60px;
 	margin-left: 10px;
+	padding-top:5px;
+	padding-bottom: 5px;
 }
 .ufb-rating-up{
 	display:inline;
@@ -248,4 +282,49 @@
 .ufb-accept-answer{
 	display: inline;
 	padding: 5px;
+}
+.ufb-msg-tm{
+	display: inline-block;
+	font-size: .6em;
+	right: 10px;
+}
+.ufb-msg{
+	display: inline-block;
+	padding: 0px 150px 0px 20px;
+	font-size: .9em;
+	color: #333;
+}
+.ufb-msg-from{
+	display: inline-block;
+	font-size: .7em;
+}
+.ufb-msg-section{
+	float: left;
+	width: 80%;
+	margin: 10px;
+	padding: 10px;
+	background-color: #f2f2f2;
+	border-radius: 10px;
+}
+.ufb-chat-input{
+	width: 80%;
+	margin:20px;
+	border-radius: .2em;
+	border: 1px solid #ccc
+}
+.ufb-list{
+	float: right;
+	margin: 20px;
+	border: 1px solid black;
+	border-radius:  5px;
+}
+.ufb-chat-status1{
+	background-color: #FF9995;
+	padding: 5px;
+}
+.ufb-chat-status0{
+	padding: 5px;
+}
+.ufb-chatuser{
+	cursor: pointer;
 }

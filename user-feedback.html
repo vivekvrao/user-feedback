@@ -15,7 +15,7 @@
 	</div>
 	{{/unless}}
 	{{#if currTopic}}
-		<div class='ufb-header'>Topic (<a class='ufb-search-button' href='#'>Return to Search</a>)</div><div class='ufb-topic-close'>&#10006;</div>
+		<a class='ufb-search-button' href='#'>&#8678;</a><div class='ufb-header'>Topic</div><div class='ufb-topic-close'>&#10006;</div>
 
 		<div class='ufb-row'>
 			{{#if readonly}}
@@ -73,13 +73,23 @@
 	{{/if}}
 </template>
 <template name="userfblink">
-<div class='ufb-button'>
-	Feedback
-
+<div class='ufb-links'>
+<div class='ufb-buttonarea'>
+	<div class='ufb-button'> Feedback</div>
+	{{#if enableFbChat}}
+	<div class='ufb-chat {{shouldFlash}}'>Chat</div>
+	{{/if}}
+	</div>
 </div>
 	{{#if showFb}}
 		<div class='ufb-page container'>
 		{{> userfeedback}}
+		</div>
+	{{/if}}
+
+	{{#if showFbChat}}
+		<div class='ufb-page container'>
+		{{> ufbchat}}
 		</div>
 	{{/if}}
 	

@@ -20,6 +20,8 @@ function updateTopic(topicId, type, comment){
 }
 
 ufbFormatDate = function(date) {
+	if(!date)
+		return "-";
   var hours = date.getHours();
   var minutes = date.getMinutes();
   var ampm = hours >= 12 ? 'pm' : 'am';
@@ -37,13 +39,30 @@ UI.registerHelper('ufbFormatDate',function(date){
 Template.userfblink.helpers({
 	showFb: function(){
 		return Session.get('showFb');
+	},
+	showFbChat: function(){
+		return Session.get('showFbChat');
+	},
+	enableFbChat: function(){
+		if(Meteor.settings && Meteor.settings.public &&
+			Meteor.settings.public.userfeedback && 
+			Meteor.settings.public.userfeedback.enableChat)
+			return Meteor.settings.public.userfeedback.enableChat;
+		// show by default
+		return true;
 	}
 });
+
 Template.userfblink.events({
 	"click .ufb-button": function (event) {
 		//$('.ufb-page').css('display','block');
 		Session.set('showFb', true);
+    },
+    "click .ufb-chat": function (event) {
+		//$('.ufb-page').css('display','block');
+		Session.set('showFbChat', true);
     }
+
 });
 Template.userfeedback.rendered = function(){
 	if (!this.rendered){

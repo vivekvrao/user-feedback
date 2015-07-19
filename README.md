@@ -1,35 +1,39 @@
 ## user-feedback 
 ### - collect, share & manage ideas & issues 
 
-This module allows you to easily add User Idea Generation and Issue Reporting functionality into your Meteor project.
+This module allows you to easily add User Idea Generation, Issue Reporting and *New* Chat Support functionality into your Meteor project. 
 
 ### Add the package to your module 
 
 **meteor add viloma:user-feedback**
 
-[Here is a Demo](http://user-feedback-demo.meteor.com)
+##[Here is a Demo](http://user-feedback-demo.meteor.com)
 
 add this to show the feedback link.
 ```html
 {{> userfblink}} 
 ```
 
-if you want to include it directly in project instead of as a popup add
+if you want to include feedback form directly in project instead of as a popup add
 ```html
 {{> userfeedback}}
 ```
 
-To use custom categories instead of the built in ones
+You can use settings file to control functionality - e.g. enable/disable chat functionality and have custom feedback categories
+
 settings.json 
 ```javascript
 {
 	"public": {
 		"userfeedback": {
+			//to use custom categories instead of the built in ones
 			"categories": [
 				{"desc":"Feature Ideas", "id":"idea"},
 				{"desc":"Technical Issues", "id":"issue"},
 				{"desc":"General Feedback", "id":"general"}
-			]	
+			],
+			// to disable chat functionality 
+            "enableChat": false
 		}
 	}
 }
@@ -42,7 +46,8 @@ To select users that are moderators for your site add this to settings.json
 		"moderators": {
 			"your moderator user id 1 ..": 1,
 			"your moderator user id 2 ..": 1
-		}
+		},
+        "enableChat": true
 	}
 }
 ```

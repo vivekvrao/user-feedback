@@ -1,4 +1,7 @@
 UserFeedback = new Mongo.Collection("userfeedback");
+UserFeedbackMessages = new Mongo.Collection("userfeedbackmessages");
+UserFeedbackChats = new Mongo.Collection("userfeedbackchats");
+
 function isModerator(user){
 	var ismod = false;
 	if(Meteor.settings && Meteor.settings.userfeedback 
@@ -7,6 +10,24 @@ function isModerator(user){
 		ismod = true;
 	return ismod;
 }
+
+Meteor.publish("userfeedbackchats", function() {
+	var uid = this.userId;
+
+	if(isModerator(uid)){		
+		return UserFeedbackChats.find();
+	}
+	else
+		return UserFeedbackChats.find('support');
+});
+Meteor.publish("userfeedbackmessages", function(userId) {
+	var uid = this.userId;
+	if(isModerator(uid) && userId)
+		uid = userId;
+
+	return UserFeedbackMessages.find({ $and: [ {status: {$gt: 0}}, {$or: [ {from: uid}, {to: uid} ]} ] }, {multi: true});
+});
+	
 Meteor.startup(function(){
 	// text index search requires that index is present
 	try{
@@ -20,6 +41,44 @@ Meteor.startup(function(){
 	}
 });
 Meteor.methods({
+	  initUFBChat: function(){ // this function is called on chat open 
+	  	var stats = {};
+		stats.isChatModerator = isModerator(Meteor.userId());
+		console.log('ischat '+stats.isChatModerator);
+		return stats;
+	},
+	modUpdateStatus: function(){
+		if(isModerator(Meteor.userId())){
+			var supRec = UserFeedbackChats.find('support');
+			// this should be called to update the status id moderator is present
+			// not implemented yet
+			//if(supRec && supRec.status)
+		}
+	},
+	ufbArchiveUserMessages: function(uid){
+		if(isModerator(Meteor.userId())){
+			var msgs = UserFeedbackMessages.find({ $and: [ {status: 1}, {$or: [ {from: uid}, {to: uid} ]} ] }).fetch();
+			console.log('archiving '+uid+' msgs: '+msgs.length);
+			for(var v in msgs){
+				var msg = msgs[v];
+				UserFeedbackMessages.update(msg._id, { $set : {status: 0}});
+			}
+		}
+	},
+	ufbSendMessage: function(text, to){
+		var sender = Meteor.userId();
+		var receiver = 'support';
+		var fromName = 'you';
+		if(to && isModerator(sender)){
+			fromName = 'support';
+			receiver = to;
+		}
+		else
+			UserFeedbackChats.upsert(sender, {$set: {lastUpdate: new Date(), live:1, name: Meteor.user().username}} );
+
+		console.log(sender + 'chatting with ' + receiver+' i am '+isModerator(Meteor.userId())+' called:'+fromName);
+		UserFeedbackMessages.insert({ from: sender, fromName: fromName, message: text, at: new Date(), to: receiver, status: 1 });
+	},
   initUFB: function(){ // this function is called on opens - returns statistics 
 		var topicStatus = UserFeedback.find({},{fields:{"status":1}}).fetch();
 		var stats = _.countBy(topicStatus,'status');
