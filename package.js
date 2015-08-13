@@ -1,6 +1,6 @@
 Package.describe({
   name: 'viloma:user-feedback',
-  version: '0.5.0',
+  version: '0.5.1',
   // Brief, one-line summary of the package.
   summary: 'A self-contained user feedback module for Meteor - with Chat',
   // URL to the Git repository containing the source code for this package.
@@ -20,6 +20,8 @@ Package.onUse(function(api) {
   api.addFiles('user-feedback-chat.html','client');
   api.addFiles('user-feedback-chat.js','client');
   api.addFiles('user-feedback.css','client');
+  api.addFiles('feedback.png','client');
+  api.addFiles('chat.png','client');
   api.addFiles('user-feedback-server.js','server');
 });
 

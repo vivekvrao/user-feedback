@@ -75,11 +75,11 @@
 <template name="userfblink">
 <div class='ufb-links'>
 <div class='ufb-buttonarea'>
-	<div class='ufb-button'> Feedback</div>
 	{{#if enableFbChat}}
-	<div class='ufb-chat {{shouldFlash}}'>Chat</div>
+	<img src='/packages/viloma_user-feedback/chat.png' alt='Chat' class='ufb-chat {{shouldFlash}}'>
 	{{/if}}
-	</div>
+	<div ><img class='ufb-button' src='/packages/viloma_user-feedback/feedback.png' alt='Feedback'></div>
+</div>
 </div>
 	{{#if showFb}}
 		<div class='ufb-page container'>
