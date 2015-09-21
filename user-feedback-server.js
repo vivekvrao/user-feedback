@@ -3,11 +3,17 @@ UserFeedbackMessages = new Mongo.Collection("userfeedbackmessages");
 UserFeedbackChats = new Mongo.Collection("userfeedbackchats");
 
 function isModerator(user){
-	var ismod = false;
-	if(Meteor.settings && Meteor.settings.userfeedback 
-		&& Meteor.settings.userfeedback.moderators 
-		&& Meteor.settings.userfeedback.moderators[user])
-		ismod = true;
+	var ismod = false, email = '---';
+	if(user){
+		var uRec = Meteor.users.findOne(user);
+		if(uRec.emails && uRec.emails.length > 0)
+			email = uRec.emails[0].address;
+		if(Meteor.settings && Meteor.settings.userfeedback 
+			&& Meteor.settings.userfeedback.moderators 
+			&& (Meteor.settings.userfeedback.moderators[user] || Meteor.settings.userfeedback.moderators[email])
+		  )
+			ismod = true;
+	}
 	return ismod;
 }
 
@@ -44,7 +50,7 @@ Meteor.methods({
 	  initUFBChat: function(){ // this function is called on chat open 
 	  	var stats = {};
 		stats.isChatModerator = isModerator(Meteor.userId());
-		console.log('ischat '+stats.isChatModerator);
+		console.log('ischatmoderator '+stats.isChatModerator);
 		return stats;
 	},
 	modUpdateStatus: function(){
@@ -76,8 +82,14 @@ Meteor.methods({
 		else
 			UserFeedbackChats.upsert(sender, {$set: {lastUpdate: new Date(), live:1, name: Meteor.user().username}} );
 
-		console.log(sender + 'chatting with ' + receiver+' i am '+isModerator(Meteor.userId())+' called:'+fromName);
+		console.log(sender + 'chatting with ' + receiver+' isModerator: '+isModerator(Meteor.userId())+' called:'+fromName);
 		UserFeedbackMessages.insert({ from: sender, fromName: fromName, message: text, at: new Date(), to: receiver, status: 1 });
+	},
+	ufbChatAcknowledged: function(to){
+		if(to && isModerator(Meteor.userId())){
+			console.log('acknow 2');
+			UserFeedbackChats.upsert(to, {$set:{live:0}});
+		}
 	},
   initUFB: function(){ // this function is called on opens - returns statistics 
 		var topicStatus = UserFeedback.find({},{fields:{"status":1}}).fetch();

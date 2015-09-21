@@ -84,7 +84,10 @@ Template.ufbchat.events({
 			Session.set('ufb-chat-to', event.target.id);
 			Session.set('ufb-chat-to-name', $('#'+event.target.id).text());
 			Meteor.subscribe("userfeedbackmessages", event.target.id);
-			UserFeedbackChats.update(event.target.id, {$set: {live: 0}});
+			var ufbChat = UserFeedbackChats.findOne(event.target.id);
+			if(ufbChat.live === 1)
+				Meteor.call("ufbChatAcknowledged", event.target.id, function(err, val){});
+			//UserFeedbackChats.update(event.target.id, {$set: {live: 0}});
 
 		}
 	}    
