@@ -2,19 +2,28 @@ UserFeedback = new Mongo.Collection("userfeedback");
 UserFeedbackMessages = new Mongo.Collection("userfeedbackmessages");
 UserFeedbackChats = new Mongo.Collection("userfeedbackchats");
 
+var moderators = {};
+// check if user is a moderator - specified in settings - accepts userId or email
+// looks up once and then caches for future
 function isModerator(user){
-	var ismod = false, email = '---';
-	if(user){
-		var uRec = Meteor.users.findOne(user);
-		if(uRec.emails && uRec.emails.length > 0)
-			email = uRec.emails[0].address;
-		if(Meteor.settings && Meteor.settings.userfeedback 
-			&& Meteor.settings.userfeedback.moderators 
-			&& (Meteor.settings.userfeedback.moderators[user] || Meteor.settings.userfeedback.moderators[email])
-		  )
-			ismod = true;
+	if(user in moderators)
+		return moderators[user];
+	else
+	{
+		var ismod = false, email = '---';
+		if(user){
+			var uRec = Meteor.users.findOne(user);
+			if(uRec.emails && uRec.emails.length > 0)
+				email = uRec.emails[0].address;
+			if(Meteor.settings && Meteor.settings.userfeedback 
+				&& Meteor.settings.userfeedback.moderators 
+				&& (Meteor.settings.userfeedback.moderators[user] || Meteor.settings.userfeedback.moderators[email])
+			  )
+				ismod = true;
+		}
+		moderators[user] = ismod;
+		return ismod;
 	}
-	return ismod;
 }
 
 Meteor.publish("userfeedbackchats", function() {
@@ -78,6 +87,9 @@ Meteor.methods({
 		if(to && isModerator(sender)){
 			fromName = 'support';
 			receiver = to;
+			var ufChat = UserFeedbackChats.findOne(to);
+			if(ufChat.live === 1)
+				UserFeedbackChats.upsert(to, {$set:{live:0}});
 		}
 		else
 			UserFeedbackChats.upsert(sender, {$set: {lastUpdate: new Date(), live:1, name: Meteor.user().username}} );
@@ -87,7 +99,6 @@ Meteor.methods({
 	},
 	ufbChatAcknowledged: function(to){
 		if(to && isModerator(Meteor.userId())){
-			console.log('acknow 2');
 			UserFeedbackChats.upsert(to, {$set:{live:0}});
 		}
 	},
